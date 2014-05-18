@@ -19,13 +19,18 @@ Router.map(function(){
 
 PostCreateController = RouteController.extend({
 
-	onBeforeAction: function() {
-		console.log("Before Action", Meteor.user());
-		if (Meteor.user()===null) {
+	onBeforeAction: function(pause) {
+		if (!Meteor.user()) {
 			this.render('accessDenied');
 
 			pause();
-		}
-			
+		}		
+	},
+
+	action: function() {
+		if (this.ready())
+			this.render();
+		else 
+			this.render('loading');
 	}
 });
